@@ -62,7 +62,7 @@ async function main(): Promise<void> {
   // ── Custom file playback ─────────────────────────────────────────────
 
   if (soundName === 'custom') {
-    const customFile = config.customFile || join(__dirname, '..', 'sounds', 'MC_Level_Up_Effect.mp3');
+    const customFile = config.customFile || join(__dirname, '..', 'sounds', 'MC_Level_Up_Effect.wav');
 
     if (!existsSync(customFile)) {
       console.error(`Custom file not found: ${customFile}`);
