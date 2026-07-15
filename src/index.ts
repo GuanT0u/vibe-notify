@@ -52,6 +52,17 @@ async function main(): Promise<void> {
   const config = loadConfig();
   const soundName = cli.soundName || config.sound;
 
+  // If the argument is a path to an existing file, play it directly
+  if (soundName && existsSync(soundName)) {
+    try {
+      await playFile(soundName, config.playback.method);
+    } catch (err: any) {
+      console.error(`Failed to play file: ${err.message}`);
+      process.exit(1);
+    }
+    return;
+  }
+
   // Validate sound name
   if (soundName !== 'custom' && !getPatternByName(soundName)) {
     console.error(`Unknown sound: "${soundName}"`);

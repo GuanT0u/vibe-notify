@@ -91,7 +91,7 @@ Replace `"npx", "-y", "vibe-notify"` with `"vibe-notify"` if installed globally.
 ## CLI Reference
 
 ```
-vibe-notify [options] [sound-name]
+vibe-notify [options] [sound-name | file-path]
 
 Options:
   --help, -h       Show help
@@ -99,6 +99,9 @@ Options:
   --config, -c     Print config file path
   --init           Create default config file
   --version, -v    Show version
+
+You can also pass a path to a .wav/.mp3 file directly:
+  vibe-notify "C:\my-sounds\alert.wav"
 ```
 
 ## How It Works
