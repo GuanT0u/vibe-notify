@@ -13,6 +13,7 @@
   },
   "files": [
     "dist/",
+    "sounds/",
     "README.md",
     "README.zh-CN.md",
     "README.ja.md",

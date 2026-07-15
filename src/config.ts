@@ -6,7 +6,7 @@ import { VibeNotifyConfig } from './types';
 // ── Defaults ───────────────────────────────────────────────────────────────
 
 export const DEFAULT_CONFIG: VibeNotifyConfig = {
-  sound: 'short-beep',
+  sound: 'custom',
   customFile: null,
   volume: 0.7,
   playback: {

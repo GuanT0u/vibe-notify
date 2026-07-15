@@ -62,23 +62,15 @@ async function main(): Promise<void> {
   // ── Custom file playback ─────────────────────────────────────────────
 
   if (soundName === 'custom') {
-    if (!config.customFile) {
-      console.error(
-        'Sound is set to "custom" but no customFile is configured.'
-      );
-      console.error(
-        `Set "customFile" in ${getConfigPath()} to a .wav or .mp3 file path.`
-      );
-      process.exit(1);
-    }
+    const customFile = config.customFile || join(__dirname, '..', 'sounds', 'MC_Level_Up_Effect.mp3');
 
-    if (!existsSync(config.customFile)) {
-      console.error(`Custom file not found: ${config.customFile}`);
+    if (!existsSync(customFile)) {
+      console.error(`Custom file not found: ${customFile}`);
       process.exit(1);
     }
 
     try {
-      await playFile(config.customFile, config.playback.method);
+      await playFile(customFile, config.playback.method);
     } catch (err: any) {
       console.error(`Failed to play custom file: ${err.message}`);
       process.exit(1);
