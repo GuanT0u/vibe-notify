@@ -105,9 +105,16 @@ Options:
 
 - **Zero runtime dependencies** — all sound generation is pure Node.js
 - Built-in sounds are generated as WAV audio in-memory (sine waves with envelope)
-- Playback uses native system players: PowerShell SoundPlayer (Windows), afplay (macOS), paplay/aplay (Linux)
-- Falls back to `[System.Console]::Beep()` or terminal bell if WAV playback fails
 - Temp files are cleaned up immediately after playback
+
+### File Format Support
+
+| Format | Windows | macOS | Linux |
+|--------|---------|-------|-------|
+| `.wav` | ✅ Native | ✅ Native | ✅ Native |
+| `.mp3` / other | ✅ ffplay¹ | ✅ Native | ✅ ffplay¹ |
+
+¹ Install ffmpeg: `winget install ffmpeg` (Windows) / `sudo apt install ffmpeg` (Linux)
 
 ## License
 

@@ -103,9 +103,16 @@ vibe-notify [options] [sound-name]
 
 - **零运行时依赖** — 所有音频均使用纯 Node.js 生成
 - 内置音效以 WAV 格式在内存中生成（带包络的正弦波）
-- 播放使用系统原生播放器：PowerShell SoundPlayer (Windows)、afplay (macOS)、paplay/aplay (Linux)
-- 如果 WAV 播放失败，回退到 `[System.Console]::Beep()` 或终端响铃
 - 临时文件在播放后立即清理
+
+### 文件格式支持
+
+| 格式 | Windows | macOS | Linux |
+|--------|---------|-------|-------|
+| `.wav` | ✅ 原生 | ✅ 原生 | ✅ 原生 |
+| `.mp3` / 其他 | ✅ ffplay¹ | ✅ 原生 | ✅ ffplay¹ |
+
+¹ 安装 ffmpeg：`winget install ffmpeg` (Windows) / `sudo apt install ffmpeg` (Linux)
 
 ## 许可证
 

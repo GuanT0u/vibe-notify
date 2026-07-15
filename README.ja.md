@@ -103,9 +103,16 @@ vibe-notify [options] [sound-name]
 
 - **ランタイム依存ゼロ** — すべてのサウンド生成は純粋な Node.js で行います
 - 内蔵サウンドは WAV オーディオとしてメモリ上で生成（エンベロープ付き正弦波）
-- 再生にはネイティブシステムプレイヤーを使用：PowerShell SoundPlayer (Windows)、afplay (macOS)、paplay/aplay (Linux)
-- WAV 再生に失敗した場合は `[System.Console]::Beep()` または端末ベルにフォールバック
 - 一時ファイルは再生後すぐにクリーンアップ
+
+### ファイルフォーマット対応
+
+| フォーマット | Windows | macOS | Linux |
+|--------|---------|-------|-------|
+| `.wav` | ✅ ネイティブ | ✅ ネイティブ | ✅ ネイティブ |
+| `.mp3` / その他 | ✅ ffplay¹ | ✅ ネイティブ | ✅ ffplay¹ |
+
+¹ ffmpeg をインストール: `winget install ffmpeg` (Windows) / `sudo apt install ffmpeg` (Linux)
 
 ## ライセンス
 
