@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 
 import { existsSync, readFileSync } from 'fs';
+import { join } from 'path';
 import { parseArgs, showHelp, listSounds } from './cli';
-import { loadConfig, initConfig, getConfigFilePath } from './config';
+import { loadConfig, initConfig, getConfigPath } from './config';
 import { buildPatternBuffer, getPatternByName } from './beep';
 import { playBuffer, playFile, fallbackBeep } from './player';
 
 // Read version from package.json
 let VERSION = '0.1.0';
 try {
-  // When running from dist/, package.json is one level up
-  const pkg = JSON.parse(readFileSync(__dirname + '/../package.json', 'utf-8'));
+  const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
   VERSION = pkg.version || VERSION;
-} catch {
-  // Fallback version
-}
+} catch { /* use default */ }
 
 async function main(): Promise<void> {
   const cli = parseArgs(process.argv.slice(2));
@@ -31,7 +29,7 @@ async function main(): Promise<void> {
       return;
 
     case 'config':
-      console.log(getConfigFilePath());
+      console.log(getConfigPath());
       return;
 
     case 'init': {
@@ -69,7 +67,7 @@ async function main(): Promise<void> {
         'Sound is set to "custom" but no customFile is configured.'
       );
       console.error(
-        `Set "customFile" in ${getConfigFilePath()} to a .wav file path.`
+        `Set "customFile" in ${getConfigPath()} to a .wav or .mp3 file path.`
       );
       process.exit(1);
     }
@@ -90,28 +88,19 @@ async function main(): Promise<void> {
 
   // ── Built-in pattern playback ────────────────────────────────────────
 
+  const pattern = getPatternByName(soundName);
   const buffer = buildPatternBuffer(soundName, config.volume);
 
-  if (buffer) {
-    try {
+  try {
+    if (buffer) {
       await playBuffer(buffer, config.playback.method);
-    } catch (err: any) {
-      // WAV playback failed — try fallback beep
-      const pattern = getPatternByName(soundName);
-      if (pattern) {
-        try {
-          await fallbackBeep(pattern.tones);
-        } catch {
-          // Both methods failed — non-fatal, just warn
-          console.error(`Could not play sound: ${err.message}`);
-        }
-      }
-    }
-  } else {
-    // Buffer generation failed — fallback to system beep
-    const pattern = getPatternByName(soundName);
-    if (pattern) {
+    } else if (pattern) {
       await fallbackBeep(pattern.tones);
+    }
+  } catch {
+    // WAV failed — try system beep as last resort
+    if (pattern) {
+      try { await fallbackBeep(pattern.tones); } catch { /* both failed, exit silently */ }
     }
   }
 }

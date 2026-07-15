@@ -4,7 +4,7 @@ import { Pattern, Tone } from './types';
 const SAMPLE_RATE = 44100;
 const BITS_PER_SAMPLE = 16;
 const NUM_CHANNELS = 1;
-const BYTES_PER_SAMPLE = BITS_PER_SAMPLE / 8; // 2
+const BYTES_PER_SAMPLE = 2; // 16-bit = 2 bytes
 
 // ── Built-in sound patterns ────────────────────────────────────────────────
 
@@ -81,15 +81,10 @@ export function generateWav(
   sampleRate: number,
   volume: number
 ): Buffer {
-  // Calculate total samples needed
-  let totalSamples = 0;
-  for (const tone of tones) {
-    totalSamples += Math.ceil(tone.duration * sampleRate);
-    if (tone.gap && tone.gap > 0) {
-      totalSamples += Math.ceil(tone.gap * sampleRate);
-    }
-  }
-
+  const totalSamples = tones.reduce(
+    (sum, t) => sum + Math.ceil(t.duration * sampleRate) + Math.ceil((t.gap || 0) * sampleRate),
+    0
+  );
   const dataSize = totalSamples * BYTES_PER_SAMPLE;
   const headerSize = 44;
   const buffer = Buffer.alloc(headerSize + dataSize);

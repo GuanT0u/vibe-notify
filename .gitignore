@@ -3,3 +3,4 @@ dist/
 *.tsbuildinfo
 .vibe-notify.json
 *.stackdump
+sounds/

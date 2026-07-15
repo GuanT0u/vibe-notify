@@ -30,9 +30,6 @@ export function getConfigPath(): string {
   return join(getConfigDir(), 'config.json');
 }
 
-export function getConfigFilePath(): string {
-  return getConfigPath();
-}
 
 // ── Load / Save ────────────────────────────────────────────────────────────
 
@@ -68,17 +65,9 @@ export function saveConfig(config: VibeNotifyConfig): void {
 
 export function initConfig(): string {
   const configPath = getConfigPath();
-  const dir = getConfigDir();
-
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
+  if (!existsSync(configPath)) {
+    saveConfig({ ...DEFAULT_CONFIG });
   }
-
-  if (existsSync(configPath)) {
-    return configPath; // Already exists, don't overwrite
-  }
-
-  saveConfig({ ...DEFAULT_CONFIG });
   return configPath;
 }
 
@@ -91,9 +80,6 @@ function mergeConfig(
   return {
     ...defaults,
     ...overrides,
-    playback: {
-      ...defaults.playback,
-      ...(overrides.playback || {}),
-    },
+    playback: { ...defaults.playback, ...overrides.playback },
   };
 }
