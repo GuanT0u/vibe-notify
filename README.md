@@ -1,5 +1,7 @@
 # vibe-notify 🔊
 
+[English](./README.md) | [中文](./README.zh-CN.md) | [日本語](./README.ja.md)
+
 Notification sounds for Claude Code sessions. Plays a customizable beep/jingle when Claude finishes responding — so you can step away and still know when your task is done.
 
 ## Quick Start
