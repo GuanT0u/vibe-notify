@@ -1,0 +1,28 @@
+{
+  "name": "vibe-notify",
+  "version": "0.1.0",
+  "description": "Notification sounds for Claude Code completions — customizable beeps when your session finishes",
+  "keywords": ["claude", "claude-code", "notification", "sound", "beep", "alert"],
+  "license": "MIT",
+  "author": "guant0u",
+  "repository": "github:GuanT0u/vibe-notify",
+  "homepage": "https://github.com/GuanT0u/vibe-notify#readme",
+  "main": "dist/index.js",
+  "bin": {
+    "vibe-notify": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "typescript": "^5.3.0"
+  }
+}
