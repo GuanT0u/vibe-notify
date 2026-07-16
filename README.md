@@ -47,11 +47,16 @@ Config file location (checked in order):
   "sound": "ascending",
   "customFile": null,
   "volume": 0.7,
+  "notify": "auto",
   "playback": {
     "method": "auto"
   }
 }
 ```
+
+| Key | Values | Description |
+|-----|--------|-------------|
+| `notify` | `"auto"` / `"on"` / `"off"` | System notification pop-up: smart by mute state, always, or never |
 
 ### Custom Sound File
 
@@ -86,7 +91,31 @@ Add this to your `.claude/settings.json` (project or global) to auto-play when C
 }
 ```
 
-Replace `"npx", "-y", "vibe-notify"` with `"vibe-notify"` if installed globally. Add a sound name like `"victory"` to the args to override the config.
+Replace `"npx", "-y", "vibe-notify"` with `"vibe-notify"` if installed globally.
+
+### Question Notifications
+
+Play a different sound when Claude asks you a question:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx",
+            "args": ["-y", "vibe-notify", "D:\\codes\\vibe-coding-notify\\sounds\\MC_Villager_Trade_Ask.wav"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ## CLI Reference
 
@@ -106,8 +135,9 @@ You can also pass a path to a .wav/.mp3 file directly:
 
 ## How It Works
 
-- **Zero runtime dependencies** — all sound generation is pure Node.js
+- **One runtime dependency** (`loudness`) — for cross-platform mute detection
 - Built-in sounds are generated as WAV audio in-memory (sine waves with envelope)
+- System notification pop-ups when speakers are muted (`notify: "auto"`)
 - Temp files are cleaned up immediately after playback
 
 ### File Format Support

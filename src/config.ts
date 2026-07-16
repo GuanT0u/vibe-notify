@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG: VibeNotifyConfig = {
   sound: 'custom',
   customFile: null,
   volume: 0.7,
+  notify: 'auto',
   playback: {
     method: 'auto',
   },

@@ -26,6 +26,8 @@ export interface VibeNotifyConfig {
   customFile: string | null;
   /** Volume 0.0–1.0 */
   volume: number;
+  /** System notification: "auto" = pop when muted, "on" = always, "off" = never */
+  notify: 'auto' | 'on' | 'off';
   /** Playback settings */
   playback: {
     method: PlaybackMethod;

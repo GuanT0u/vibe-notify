@@ -45,11 +45,16 @@ npx -y vibe-notify victory
   "sound": "ascending",
   "customFile": null,
   "volume": 0.7,
+  "notify": "auto",
   "playback": {
     "method": "auto"
   }
 }
 ```
+
+| 键 | 值 | 说明 |
+|-----|--------|-------------|
+| `notify` | `"auto"` / `"on"` / `"off"` | 系统通知弹窗：根据静音状态智能显示、始终显示、或永不显示 |
 
 ### 自定义音频文件
 
@@ -84,7 +89,31 @@ npx -y vibe-notify victory
 }
 ```
 
-如果已全局安装，将 `"npx", "-y", "vibe-notify"` 替换为 `"vibe-notify"`。在 args 中添加音效名称（如 `"victory"`）可覆盖配置文件中的设置。
+如果已全局安装，将 `"npx", "-y", "vibe-notify"` 替换为 `"vibe-notify"`。
+
+### 提问通知
+
+当 Claude 向你提问时播放不同音效：
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx",
+            "args": ["-y", "vibe-notify", "D:\\codes\\vibe-coding-notify\\sounds\\MC_Villager_Trade_Ask.wav"],
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ## CLI 参考
 
@@ -101,8 +130,9 @@ vibe-notify [options] [sound-name]
 
 ## 工作原理
 
-- **零运行时依赖** — 所有音频均使用纯 Node.js 生成
+- **一个运行时依赖** (`loudness`) — 用于跨平台静音检测
 - 内置音效以 WAV 格式在内存中生成（带包络的正弦波）
+- 扬声器静音时自动弹出系统通知（`notify: "auto"`）
 - 临时文件在播放后立即清理
 
 ### 文件格式支持

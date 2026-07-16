@@ -6,6 +6,7 @@ import { parseArgs, showHelp, listSounds } from './cli';
 import { loadConfig, initConfig, getConfigPath } from './config';
 import { buildPatternBuffer, getPatternByName } from './beep';
 import { playBuffer, playFile, fallbackBeep } from './player';
+import { checkMuted, sendNotification } from './notify';
 
 // Read version from package.json
 let VERSION = '0.1.0';
@@ -13,6 +14,12 @@ try {
   const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'));
   VERSION = pkg.version || VERSION;
 } catch { /* use default */ }
+
+async function maybeNotify(config: any): Promise<void> {
+  if (config.notify === 'off') return;
+  if (config.notify === 'auto' && !(await checkMuted())) return;
+  await sendNotification('vibe-notify', 'Task complete!');
+}
 
 async function main(): Promise<void> {
   const cli = parseArgs(process.argv.slice(2));
@@ -56,6 +63,7 @@ async function main(): Promise<void> {
   if (soundName && existsSync(soundName)) {
     try {
       await playFile(soundName, config.playback.method);
+      await maybeNotify(config);
     } catch (err: any) {
       console.error(`Failed to play file: ${err.message}`);
       process.exit(1);
@@ -82,6 +90,7 @@ async function main(): Promise<void> {
 
     try {
       await playFile(customFile, config.playback.method);
+      await maybeNotify(config);
     } catch (err: any) {
       console.error(`Failed to play custom file: ${err.message}`);
       process.exit(1);
@@ -100,6 +109,7 @@ async function main(): Promise<void> {
     } else if (pattern) {
       await fallbackBeep(pattern.tones);
     }
+    await maybeNotify(config);
   } catch {
     // WAV failed — try system beep as last resort
     if (pattern) {
