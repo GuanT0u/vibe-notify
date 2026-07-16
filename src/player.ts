@@ -10,10 +10,6 @@ import { Tone, PlaybackMethod } from './types';
  * Play a WAV buffer through the system audio output.
  * Writes to a temp file, plays it, then cleans up.
  */
-/**
- * Play a WAV buffer through the system audio output.
- * Writes to a temp file, plays it, then cleans up.
- */
 export async function playBuffer(
   buffer: Buffer,
   method: PlaybackMethod = 'auto'

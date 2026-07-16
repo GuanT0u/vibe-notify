@@ -25,10 +25,9 @@ export async function sendNotification(title: string, body: string): Promise<voi
       await execPromise('powershell', [
         '-NoProfile', '-NonInteractive', '-Command',
         `[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null;
-        $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02);
+        $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText01);
         $texts = $template.GetElementsByTagName('text');
-        $texts.Item(0).AppendChild($template.CreateTextNode('${escapePS(title)}')) | Out-Null;
-        $texts.Item(1).AppendChild($template.CreateTextNode('${escapePS(body)}')) | Out-Null;
+        $texts.Item(0).AppendChild($template.CreateTextNode('${escapePS(body)}')) | Out-Null;
         $toast = New-Object Windows.UI.Notifications.ToastNotification($template);
         [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('vibe-notify').Show($toast);`,
       ]);

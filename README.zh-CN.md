@@ -126,6 +126,7 @@ vibe-notify [options] [sound-name]
   --config, -c     打印配置文件路径
   --init           创建默认配置文件
   --version, -v    显示版本
+  --message, -m    自定义通知文本
 ```
 
 ## 工作原理

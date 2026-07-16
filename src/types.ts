@@ -41,4 +41,4 @@ export type CliAction =
   | { action: 'config' }
   | { action: 'init' }
   | { action: 'version' }
-  | { action: 'play'; soundName?: string };
+  | { action: 'play'; soundName?: string; message?: string };

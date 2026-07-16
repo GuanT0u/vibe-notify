@@ -126,6 +126,7 @@ vibe-notify [options] [sound-name]
   --config, -c     設定ファイルのパスを表示
   --init           デフォルト設定ファイルを作成
   --version, -v    バージョンを表示
+  --message, -m    カスタム通知テキスト
 ```
 
 ## 仕組み

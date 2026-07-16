@@ -128,6 +128,7 @@ Options:
   --config, -c     Print config file path
   --init           Create default config file
   --version, -v    Show version
+  --message, -m    Custom notification text
 
 You can also pass a path to a .wav/.mp3 file directly:
   vibe-notify "C:\my-sounds\alert.wav"

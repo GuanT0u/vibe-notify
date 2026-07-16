@@ -1,6 +1,6 @@
 {
   "name": "vibe-notify",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Notification sounds for Claude Code completions — customizable beeps when your session finishes",
   "keywords": [
     "claude",
